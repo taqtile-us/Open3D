@@ -103,6 +103,8 @@ core::Tensor CorrespondencesFromFeatures(const core::Tensor &source_features,
     const int kMaxThreads = utility::EstimateMaxThreads();
     const int kOuterThreads = std::min(kMaxThreads, num_searches);
 
+    (void)kMaxThreads;
+    (void)kOuterThreads;
     // corres[0]: corres_ij, corres[1]: corres_ji
 #pragma omp parallel for num_threads(kOuterThreads)
     for (int i = 0; i < num_searches; ++i) {
