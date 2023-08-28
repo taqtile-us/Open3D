@@ -1489,6 +1489,8 @@ else()
     list(APPEND Open3D_3RDPARTY_PRIVATE_TARGETS_FROM_SYSTEM Open3D::3rdparty_msgpack)
 endif()
 
+
+if (NOT IOS)
 # VTK
 if(USE_SYSTEM_VTK)
     open3d_find_package_3rdparty_library(3rdparty_vtk
@@ -1527,6 +1529,7 @@ if(NOT USE_SYSTEM_VTK)
     endif()
 endif()
 list(APPEND Open3D_3RDPARTY_PRIVATE_TARGETS_FROM_CUSTOM Open3D::3rdparty_vtk)
+endif()
 
 # UVAtlas
 include(${Open3D_3RDPARTY_DIR}/uvatlas/uvatlas.cmake)
