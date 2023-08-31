@@ -744,17 +744,17 @@ if(USE_SYSTEM_JPEG)
     endif()
 endif()
 if(NOT USE_SYSTEM_JPEG)
-    message(STATUS "Building third-party library JPEG from source")
-    include(${Open3D_3RDPARTY_DIR}/libjpeg-turbo/libjpeg-turbo.cmake)
-    open3d_import_3rdparty_library(3rdparty_jpeg
-        INCLUDE_DIRS ${JPEG_TURBO_INCLUDE_DIRS}
-        LIB_DIR      ${JPEG_TURBO_LIB_DIR}
-        LIBRARIES    ${JPEG_TURBO_LIBRARIES}
-        DEPENDS      ext_turbojpeg
-    )
-    list(APPEND Open3D_3RDPARTY_PRIVATE_TARGETS_FROM_CUSTOM Open3D::3rdparty_jpeg)
+    # message(STATUS "Building third-party library JPEG from source")
+    # include(${Open3D_3RDPARTY_DIR}/libjpeg-turbo/libjpeg-turbo.cmake)
+    # open3d_import_3rdparty_library(3rdparty_jpeg
+    #     INCLUDE_DIRS ${JPEG_TURBO_INCLUDE_DIRS}
+    #     LIB_DIR      ${JPEG_TURBO_LIB_DIR}
+    #     LIBRARIES    ${JPEG_TURBO_LIBRARIES}
+    #     DEPENDS      ext_turbojpeg
+    # )
+    # list(APPEND Open3D_3RDPARTY_PRIVATE_TARGETS_FROM_CUSTOM Open3D::3rdparty_jpeg)
 else()
-    list(APPEND Open3D_3RDPARTY_PRIVATE_TARGETS_FROM_SYSTEM Open3D::3rdparty_jpeg)
+    # list(APPEND Open3D_3RDPARTY_PRIVATE_TARGETS_FROM_SYSTEM Open3D::3rdparty_jpeg)
 endif()
 
 # jsoncpp
@@ -915,29 +915,29 @@ if(USE_SYSTEM_PNG)
         set(USE_SYSTEM_PNG OFF)
     endif()
 endif()
-if(NOT USE_SYSTEM_PNG)
-    include(${Open3D_3RDPARTY_DIR}/zlib/zlib.cmake)
-    open3d_import_3rdparty_library(3rdparty_zlib
-        HIDDEN
-        INCLUDE_DIRS ${ZLIB_INCLUDE_DIRS}
-        LIB_DIR      ${ZLIB_LIB_DIR}
-        LIBRARIES    ${ZLIB_LIBRARIES}
-        DEPENDS      ext_zlib
-    )
+# if(NOT USE_SYSTEM_PNG)
+#     include(${Open3D_3RDPARTY_DIR}/zlib/zlib.cmake)
+#     open3d_import_3rdparty_library(3rdparty_zlib
+#         HIDDEN
+#         INCLUDE_DIRS ${ZLIB_INCLUDE_DIRS}
+#         LIB_DIR      ${ZLIB_LIB_DIR}
+#         LIBRARIES    ${ZLIB_LIBRARIES}
+#         DEPENDS      ext_zlib
+#     )
 
-    include(${Open3D_3RDPARTY_DIR}/libpng/libpng.cmake)
-    open3d_import_3rdparty_library(3rdparty_png
-        INCLUDE_DIRS ${LIBPNG_INCLUDE_DIRS}
-        LIB_DIR      ${LIBPNG_LIB_DIR}
-        LIBRARIES    ${LIBPNG_LIBRARIES}
-        DEPENDS      ext_libpng
-    )
-    add_dependencies(ext_libpng ext_zlib)
-    target_link_libraries(3rdparty_png INTERFACE Open3D::3rdparty_zlib)
-    list(APPEND Open3D_3RDPARTY_PRIVATE_TARGETS_FROM_CUSTOM Open3D::3rdparty_png)
-else()
-    list(APPEND Open3D_3RDPARTY_PRIVATE_TARGETS_FROM_SYSTEM Open3D::3rdparty_png)
-endif()
+#     include(${Open3D_3RDPARTY_DIR}/libpng/libpng.cmake)
+#     open3d_import_3rdparty_library(3rdparty_png
+#         INCLUDE_DIRS ${LIBPNG_INCLUDE_DIRS}
+#         LIB_DIR      ${LIBPNG_LIB_DIR}
+#         LIBRARIES    ${LIBPNG_LIBRARIES}
+#         DEPENDS      ext_libpng
+#     )
+#     add_dependencies(ext_libpng ext_zlib)
+#     target_link_libraries(3rdparty_png INTERFACE Open3D::3rdparty_zlib)
+#     list(APPEND Open3D_3RDPARTY_PRIVATE_TARGETS_FROM_CUSTOM Open3D::3rdparty_png)
+# else()
+#     list(APPEND Open3D_3RDPARTY_PRIVATE_TARGETS_FROM_SYSTEM Open3D::3rdparty_png)
+# endif()
 
 # rply
 open3d_build_3rdparty_library(3rdparty_rply DIRECTORY rply
@@ -1429,6 +1429,7 @@ if(BUILD_GUI AND UNIX AND NOT APPLE)
     message(STATUS "MESA_CPU_GL_LIBRARY: ${MESA_CPU_GL_LIBRARY}")
 endif()
 
+if (NOT IOS)
 # RPC interface
 # zeromq
 if(USE_SYSTEM_ZEROMQ)
@@ -1488,7 +1489,7 @@ if(NOT USE_SYSTEM_MSGPACK)
 else()
     list(APPEND Open3D_3RDPARTY_PRIVATE_TARGETS_FROM_SYSTEM Open3D::3rdparty_msgpack)
 endif()
-
+endif()
 
 if (NOT IOS)
 # VTK

@@ -47,6 +47,7 @@ ExternalProject_Add(
         -DWITH_DOCS=OFF
         -DWITH_PERF_TOOL=OFF
         -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
+        -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
         ${ExternalProject_CMAKE_ARGS_hidden}
         ${WIN_CMAKE_ARGS}
     BUILD_BYPRODUCTS
