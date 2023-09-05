@@ -15,59 +15,59 @@ namespace open3d {
 namespace core {
 
 template <typename scalar_t>
-inline void gemm_cpu(CBLAS_LAYOUT layout,
-                     CBLAS_TRANSPOSE trans_A,
-                     CBLAS_TRANSPOSE trans_B,
-                     OPEN3D_CPU_LINALG_INT m,
-                     OPEN3D_CPU_LINALG_INT n,
-                     OPEN3D_CPU_LINALG_INT k,
-                     scalar_t alpha,
-                     const scalar_t *A_data,
-                     OPEN3D_CPU_LINALG_INT lda,
-                     const scalar_t *B_data,
-                     OPEN3D_CPU_LINALG_INT ldb,
-                     scalar_t beta,
-                     scalar_t *C_data,
-                     OPEN3D_CPU_LINALG_INT ldc) {
-    utility::LogError("Unsupported data type.");
+inline void gemm_cpu(CBLAS_ORDER layout,
+                    CBLAS_TRANSPOSE trans_A,
+                    CBLAS_TRANSPOSE trans_B,
+                    OPEN3D_CPU_LINALG_INT m,
+                    OPEN3D_CPU_LINALG_INT n,
+                    OPEN3D_CPU_LINALG_INT k,
+                    scalar_t alpha,
+                    const scalar_t *A_data,
+                    OPEN3D_CPU_LINALG_INT lda,
+                    const scalar_t *B_data,
+                    OPEN3D_CPU_LINALG_INT ldb,
+                    scalar_t beta,
+                    scalar_t *C_data,
+                    OPEN3D_CPU_LINALG_INT ldc) {
+   utility::LogError("Unsupported data type.");
 }
 
 template <>
-inline void gemm_cpu<float>(CBLAS_LAYOUT layout,
+inline void gemm_cpu<float>(CBLAS_ORDER layout,
+                           CBLAS_TRANSPOSE trans_A,
+                           CBLAS_TRANSPOSE trans_B,
+                           OPEN3D_CPU_LINALG_INT m,
+                           OPEN3D_CPU_LINALG_INT n,
+                           OPEN3D_CPU_LINALG_INT k,
+                           float alpha,
+                           const float *A_data,
+                           OPEN3D_CPU_LINALG_INT lda,
+                           const float *B_data,
+                           OPEN3D_CPU_LINALG_INT ldb,
+                           float beta,
+                           float *C_data,
+                           OPEN3D_CPU_LINALG_INT ldc) {
+   cblas_sgemm(layout, trans_A, trans_B, m, n, k, alpha, A_data, lda, B_data,
+               ldb, beta, C_data, ldc);
+}
+
+template <>
+inline void gemm_cpu<double>(CBLAS_ORDER layout,
                             CBLAS_TRANSPOSE trans_A,
                             CBLAS_TRANSPOSE trans_B,
                             OPEN3D_CPU_LINALG_INT m,
                             OPEN3D_CPU_LINALG_INT n,
                             OPEN3D_CPU_LINALG_INT k,
-                            float alpha,
-                            const float *A_data,
+                            double alpha,
+                            const double *A_data,
                             OPEN3D_CPU_LINALG_INT lda,
-                            const float *B_data,
+                            const double *B_data,
                             OPEN3D_CPU_LINALG_INT ldb,
-                            float beta,
-                            float *C_data,
+                            double beta,
+                            double *C_data,
                             OPEN3D_CPU_LINALG_INT ldc) {
-    cblas_sgemm(layout, trans_A, trans_B, m, n, k, alpha, A_data, lda, B_data,
-                ldb, beta, C_data, ldc);
-}
-
-template <>
-inline void gemm_cpu<double>(CBLAS_LAYOUT layout,
-                             CBLAS_TRANSPOSE trans_A,
-                             CBLAS_TRANSPOSE trans_B,
-                             OPEN3D_CPU_LINALG_INT m,
-                             OPEN3D_CPU_LINALG_INT n,
-                             OPEN3D_CPU_LINALG_INT k,
-                             double alpha,
-                             const double *A_data,
-                             OPEN3D_CPU_LINALG_INT lda,
-                             const double *B_data,
-                             OPEN3D_CPU_LINALG_INT ldb,
-                             double beta,
-                             double *C_data,
-                             OPEN3D_CPU_LINALG_INT ldc) {
-    cblas_dgemm(layout, trans_A, trans_B, m, n, k, alpha, A_data, lda, B_data,
-                ldb, beta, C_data, ldc);
+   cblas_dgemm(layout, trans_A, trans_B, m, n, k, alpha, A_data, lda, B_data,
+               ldb, beta, C_data, ldc);
 }
 
 #ifdef BUILD_CUDA_MODULE

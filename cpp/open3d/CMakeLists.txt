@@ -100,6 +100,22 @@ open3d_ispc_target_sources_TARGET_OBJECTS(Open3D PRIVATE
     utility
 )
 
+if (IOS)
+    # fix for "Implicit conversion loses integer precision: 'unsigned long' to 'int'"
+    target_compile_options(core PRIVATE "-Wno-shorten-64-to-32")
+    target_compile_options(geometry PRIVATE "-Wno-shorten-64-to-32")
+    target_compile_options(tgeometry PRIVATE "-Wno-shorten-64-to-32")
+    target_compile_options(tgeometry_kernel PRIVATE "-Wno-shorten-64-to-32")
+    target_compile_options(io PRIVATE "-Wno-shorten-64-to-32")
+    target_compile_options(pipelines PRIVATE "-Wno-shorten-64-to-32")
+    target_compile_options(tpipelines PRIVATE "-Wno-shorten-64-to-32")
+    target_compile_options(tpipelines_kernel PRIVATE "-Wno-shorten-64-to-32")
+    target_compile_options(tio PRIVATE "-Wno-shorten-64-to-32")
+
+    # include "lapacke.h" header
+    target_include_directories(core PRIVATE "${CMAKE_SOURCE_DIR}/util/LAPACKE-iOS/LAPACKE/include")
+endif()
+
 if (NOT IOS)
     open3d_ispc_target_sources_TARGET_OBJECTS(Open3D PRIVATE
         visualization
