@@ -10,7 +10,7 @@ cmake \
     -DBUILD_GUI=OFF \
     -DWITH_IPPICV=OFF \
     -DUSE_SYSTEM_BLAS=ON \
-    -DBUILD_VTK_FROM_SOURCE=OFF \
+    -DBUILD_VTK_FROM_SOURCE=ON \
     -DBUILD_FILAMENT_FROM_SOURCE=OFF \
     -GXcode \
     -DCMAKE_TOOLCHAIN_FILE=./util/platforms/iOS.cmake \

@@ -948,6 +948,7 @@ open3d_build_3rdparty_library(3rdparty_rply DIRECTORY rply
 )
 list(APPEND Open3D_3RDPARTY_PRIVATE_TARGETS_FROM_CUSTOM Open3D::3rdparty_rply)
 
+# if(NOT IOS)
 # tinyfiledialogs
 open3d_build_3rdparty_library(3rdparty_tinyfiledialogs DIRECTORY tinyfiledialogs
     SOURCES
@@ -956,6 +957,7 @@ open3d_build_3rdparty_library(3rdparty_tinyfiledialogs DIRECTORY tinyfiledialogs
         include/
 )
 list(APPEND Open3D_3RDPARTY_PRIVATE_TARGETS_FROM_CUSTOM Open3D::3rdparty_tinyfiledialogs)
+# endif()
 
 # tinygltf
 if(USE_SYSTEM_TINYGLTF)
@@ -1491,7 +1493,6 @@ else()
 endif()
 endif()
 
-if (NOT IOS)
 # VTK
 if(USE_SYSTEM_VTK)
     open3d_find_package_3rdparty_library(3rdparty_vtk
@@ -1530,7 +1531,6 @@ if(NOT USE_SYSTEM_VTK)
     endif()
 endif()
 list(APPEND Open3D_3RDPARTY_PRIVATE_TARGETS_FROM_CUSTOM Open3D::3rdparty_vtk)
-endif()
 
 # UVAtlas
 include(${Open3D_3RDPARTY_DIR}/uvatlas/uvatlas.cmake)
