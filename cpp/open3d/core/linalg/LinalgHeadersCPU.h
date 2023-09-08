@@ -14,11 +14,19 @@
 #pragma once
 
 #ifdef USE_BLAS
-#define OPEN3D_CPU_LINALG_INT int32_t
-#define lapack_int int32_t
-#include <cblas.h>
-#include <lapacke.h>
+    #define OPEN3D_CPU_LINALG_INT int32_t
+    #define lapack_int int32_t
+
+    #include <lapacke.h>
+    #include <TargetConditionals.h>
+    #if !TARGET_OS_IOS
+        #include <cblas.h>
+    #else
+        #define ACCELERATE_NEW_LAPACK
+        #define ACCELERATE_LAPACK_ILP64
+        #include <Accelerate/Accelerate.h>
+    #endif
 #else
-#include <mkl.h>
-#define OPEN3D_CPU_LINALG_INT MKL_INT
+    #include <mkl.h>
+    #define OPEN3D_CPU_LINALG_INT MKL_INT
 #endif

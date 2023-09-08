@@ -64,6 +64,7 @@ ExternalProject_Add(
         -DENABLE_SHARED=OFF
         -DWITH_SIMD=${WITH_SIMD}
         ${ExternalProject_CMAKE_ARGS_hidden}
+        -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
         # WARNING: libjpeg-turbo uses its own old version of
         # GNUInstallDirs.cmake and leads to invalid installs with
         # CMAKE_INSTALL_LIBDIR, so we undefine it and set

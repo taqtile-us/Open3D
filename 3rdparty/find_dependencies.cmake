@@ -653,67 +653,69 @@ else()
     list(APPEND Open3D_3RDPARTY_HEADER_TARGETS_FROM_SYSTEM Open3D::3rdparty_glew)
 endif()
 
-# GLFW
-if(USE_SYSTEM_GLFW)
-    open3d_find_package_3rdparty_library(3rdparty_glfw
-        HEADER
-        PACKAGE glfw3
-        TARGETS glfw
-    )
-    if(NOT 3rdparty_glfw_FOUND)
-        open3d_pkg_config_3rdparty_library(3rdparty_glfw
+if(NOT IOS)
+    # GLFW
+    if(USE_SYSTEM_GLFW)
+        open3d_find_package_3rdparty_library(3rdparty_glfw
             HEADER
-            SEARCH_ARGS glfw3
+            PACKAGE glfw3
+            TARGETS glfw
         )
         if(NOT 3rdparty_glfw_FOUND)
-            set(USE_SYSTEM_GLFW OFF)
+            open3d_pkg_config_3rdparty_library(3rdparty_glfw
+                HEADER
+                SEARCH_ARGS glfw3
+            )
+            if(NOT 3rdparty_glfw_FOUND)
+                set(USE_SYSTEM_GLFW OFF)
+            endif()
         endif()
     endif()
-endif()
-if(NOT USE_SYSTEM_GLFW)
-    message(STATUS "Building library 3rdparty_glfw from source")
-    add_subdirectory(${Open3D_3RDPARTY_DIR}/glfw)
-    open3d_import_3rdparty_library(3rdparty_glfw
-        HEADER
-        INCLUDE_DIRS ${Open3D_3RDPARTY_DIR}/glfw/include/
-        LIBRARIES    glfw3
-        DEPENDS      glfw
-    )
-    target_link_libraries(3rdparty_glfw INTERFACE Open3D::3rdparty_threads)
-    if(UNIX AND NOT APPLE)
-        find_library(RT_LIBRARY rt)
-        if(RT_LIBRARY)
-            target_link_libraries(3rdparty_glfw INTERFACE ${RT_LIBRARY})
-        endif()
-        find_library(MATH_LIBRARY m)
-        if(MATH_LIBRARY)
-            target_link_libraries(3rdparty_glfw INTERFACE ${MATH_LIBRARY})
-        endif()
-        if(CMAKE_DL_LIBS)
-            target_link_libraries(3rdparty_glfw INTERFACE ${CMAKE_DL_LIBS})
-        endif()
-    endif()
-    if(APPLE)
-        find_library(COCOA_FRAMEWORK Cocoa)
-        find_library(IOKIT_FRAMEWORK IOKit)
-        find_library(CORE_FOUNDATION_FRAMEWORK CoreFoundation)
-        find_library(CORE_VIDEO_FRAMEWORK CoreVideo)
-        target_link_libraries(3rdparty_glfw INTERFACE
-            ${COCOA_FRAMEWORK}
-            ${IOKIT_FRAMEWORK}
-            ${CORE_FOUNDATION_FRAMEWORK}
-            ${CORE_VIDEO_FRAMEWORK}
+    if(NOT USE_SYSTEM_GLFW)
+        message(STATUS "Building library 3rdparty_glfw from source")
+        add_subdirectory(${Open3D_3RDPARTY_DIR}/glfw)
+        open3d_import_3rdparty_library(3rdparty_glfw
+            HEADER
+            INCLUDE_DIRS ${Open3D_3RDPARTY_DIR}/glfw/include/
+            LIBRARIES    glfw3
+            DEPENDS      glfw
         )
+        target_link_libraries(3rdparty_glfw INTERFACE Open3D::3rdparty_threads)
+        if(UNIX AND NOT APPLE)
+            find_library(RT_LIBRARY rt)
+            if(RT_LIBRARY)
+                target_link_libraries(3rdparty_glfw INTERFACE ${RT_LIBRARY})
+            endif()
+            find_library(MATH_LIBRARY m)
+            if(MATH_LIBRARY)
+                target_link_libraries(3rdparty_glfw INTERFACE ${MATH_LIBRARY})
+            endif()
+            if(CMAKE_DL_LIBS)
+                target_link_libraries(3rdparty_glfw INTERFACE ${CMAKE_DL_LIBS})
+            endif()
+        endif()
+        if(APPLE)
+            find_library(COCOA_FRAMEWORK Cocoa)
+            find_library(IOKIT_FRAMEWORK IOKit)
+            find_library(CORE_FOUNDATION_FRAMEWORK CoreFoundation)
+            find_library(CORE_VIDEO_FRAMEWORK CoreVideo)
+            target_link_libraries(3rdparty_glfw INTERFACE
+                ${COCOA_FRAMEWORK}
+                ${IOKIT_FRAMEWORK}
+                ${CORE_FOUNDATION_FRAMEWORK}
+                ${CORE_VIDEO_FRAMEWORK}
+            )
+        endif()
+        if(WIN32)
+            target_link_libraries(3rdparty_glfw INTERFACE gdi32)
+        endif()
+        list(APPEND Open3D_3RDPARTY_HEADER_TARGETS_FROM_CUSTOM Open3D::3rdparty_glfw)
+    else()
+        list(APPEND Open3D_3RDPARTY_HEADER_TARGETS_FROM_SYSTEM Open3D::3rdparty_glfw)
     endif()
-    if(WIN32)
-        target_link_libraries(3rdparty_glfw INTERFACE gdi32)
+    if(TARGET Open3D::3rdparty_x11)
+        target_link_libraries(3rdparty_glfw INTERFACE Open3D::3rdparty_x11)
     endif()
-    list(APPEND Open3D_3RDPARTY_HEADER_TARGETS_FROM_CUSTOM Open3D::3rdparty_glfw)
-else()
-    list(APPEND Open3D_3RDPARTY_HEADER_TARGETS_FROM_SYSTEM Open3D::3rdparty_glfw)
-endif()
-if(TARGET Open3D::3rdparty_x11)
-    target_link_libraries(3rdparty_glfw INTERFACE Open3D::3rdparty_x11)
 endif()
 
 # TurboJPEG
@@ -742,17 +744,17 @@ if(USE_SYSTEM_JPEG)
     endif()
 endif()
 if(NOT USE_SYSTEM_JPEG)
-    message(STATUS "Building third-party library JPEG from source")
-    include(${Open3D_3RDPARTY_DIR}/libjpeg-turbo/libjpeg-turbo.cmake)
-    open3d_import_3rdparty_library(3rdparty_jpeg
-        INCLUDE_DIRS ${JPEG_TURBO_INCLUDE_DIRS}
-        LIB_DIR      ${JPEG_TURBO_LIB_DIR}
-        LIBRARIES    ${JPEG_TURBO_LIBRARIES}
-        DEPENDS      ext_turbojpeg
-    )
-    list(APPEND Open3D_3RDPARTY_PRIVATE_TARGETS_FROM_CUSTOM Open3D::3rdparty_jpeg)
+    # message(STATUS "Building third-party library JPEG from source")
+    # include(${Open3D_3RDPARTY_DIR}/libjpeg-turbo/libjpeg-turbo.cmake)
+    # open3d_import_3rdparty_library(3rdparty_jpeg
+    #     INCLUDE_DIRS ${JPEG_TURBO_INCLUDE_DIRS}
+    #     LIB_DIR      ${JPEG_TURBO_LIB_DIR}
+    #     LIBRARIES    ${JPEG_TURBO_LIBRARIES}
+    #     DEPENDS      ext_turbojpeg
+    # )
+    # list(APPEND Open3D_3RDPARTY_PRIVATE_TARGETS_FROM_CUSTOM Open3D::3rdparty_jpeg)
 else()
-    list(APPEND Open3D_3RDPARTY_PRIVATE_TARGETS_FROM_SYSTEM Open3D::3rdparty_jpeg)
+    # list(APPEND Open3D_3RDPARTY_PRIVATE_TARGETS_FROM_SYSTEM Open3D::3rdparty_jpeg)
 endif()
 
 # jsoncpp
@@ -913,29 +915,29 @@ if(USE_SYSTEM_PNG)
         set(USE_SYSTEM_PNG OFF)
     endif()
 endif()
-if(NOT USE_SYSTEM_PNG)
-    include(${Open3D_3RDPARTY_DIR}/zlib/zlib.cmake)
-    open3d_import_3rdparty_library(3rdparty_zlib
-        HIDDEN
-        INCLUDE_DIRS ${ZLIB_INCLUDE_DIRS}
-        LIB_DIR      ${ZLIB_LIB_DIR}
-        LIBRARIES    ${ZLIB_LIBRARIES}
-        DEPENDS      ext_zlib
-    )
+# if(NOT USE_SYSTEM_PNG)
+#     include(${Open3D_3RDPARTY_DIR}/zlib/zlib.cmake)
+#     open3d_import_3rdparty_library(3rdparty_zlib
+#         HIDDEN
+#         INCLUDE_DIRS ${ZLIB_INCLUDE_DIRS}
+#         LIB_DIR      ${ZLIB_LIB_DIR}
+#         LIBRARIES    ${ZLIB_LIBRARIES}
+#         DEPENDS      ext_zlib
+#     )
 
-    include(${Open3D_3RDPARTY_DIR}/libpng/libpng.cmake)
-    open3d_import_3rdparty_library(3rdparty_png
-        INCLUDE_DIRS ${LIBPNG_INCLUDE_DIRS}
-        LIB_DIR      ${LIBPNG_LIB_DIR}
-        LIBRARIES    ${LIBPNG_LIBRARIES}
-        DEPENDS      ext_libpng
-    )
-    add_dependencies(ext_libpng ext_zlib)
-    target_link_libraries(3rdparty_png INTERFACE Open3D::3rdparty_zlib)
-    list(APPEND Open3D_3RDPARTY_PRIVATE_TARGETS_FROM_CUSTOM Open3D::3rdparty_png)
-else()
-    list(APPEND Open3D_3RDPARTY_PRIVATE_TARGETS_FROM_SYSTEM Open3D::3rdparty_png)
-endif()
+#     include(${Open3D_3RDPARTY_DIR}/libpng/libpng.cmake)
+#     open3d_import_3rdparty_library(3rdparty_png
+#         INCLUDE_DIRS ${LIBPNG_INCLUDE_DIRS}
+#         LIB_DIR      ${LIBPNG_LIB_DIR}
+#         LIBRARIES    ${LIBPNG_LIBRARIES}
+#         DEPENDS      ext_libpng
+#     )
+#     add_dependencies(ext_libpng ext_zlib)
+#     target_link_libraries(3rdparty_png INTERFACE Open3D::3rdparty_zlib)
+#     list(APPEND Open3D_3RDPARTY_PRIVATE_TARGETS_FROM_CUSTOM Open3D::3rdparty_png)
+# else()
+#     list(APPEND Open3D_3RDPARTY_PRIVATE_TARGETS_FROM_SYSTEM Open3D::3rdparty_png)
+# endif()
 
 # rply
 open3d_build_3rdparty_library(3rdparty_rply DIRECTORY rply
@@ -946,6 +948,7 @@ open3d_build_3rdparty_library(3rdparty_rply DIRECTORY rply
 )
 list(APPEND Open3D_3RDPARTY_PRIVATE_TARGETS_FROM_CUSTOM Open3D::3rdparty_rply)
 
+# if(NOT IOS)
 # tinyfiledialogs
 open3d_build_3rdparty_library(3rdparty_tinyfiledialogs DIRECTORY tinyfiledialogs
     SOURCES
@@ -954,6 +957,7 @@ open3d_build_3rdparty_library(3rdparty_tinyfiledialogs DIRECTORY tinyfiledialogs
         include/
 )
 list(APPEND Open3D_3RDPARTY_PRIVATE_TARGETS_FROM_CUSTOM Open3D::3rdparty_tinyfiledialogs)
+# endif()
 
 # tinygltf
 if(USE_SYSTEM_TINYGLTF)
@@ -1390,22 +1394,24 @@ if(BUILD_GUI)
     endif() # if(NOT USE_SYSTEM_FILAMENT)
 endif()
 
-# Headless rendering
-if (ENABLE_HEADLESS_RENDERING)
-    open3d_find_package_3rdparty_library(3rdparty_opengl
-        REQUIRED
-        PACKAGE OSMesa
-        INCLUDE_DIRS OSMESA_INCLUDE_DIR
-        LIBRARIES OSMESA_LIBRARY
-    )
-else()
-    open3d_find_package_3rdparty_library(3rdparty_opengl
-        PACKAGE OpenGL
-        TARGETS OpenGL::GL
-    )
-    set(USE_SYSTEM_OPENGL ON)
+if (NOT IOS)
+    # Headless rendering
+    if (ENABLE_HEADLESS_RENDERING)
+        open3d_find_package_3rdparty_library(3rdparty_opengl
+            REQUIRED
+            PACKAGE OSMesa
+            INCLUDE_DIRS OSMESA_INCLUDE_DIR
+            LIBRARIES OSMESA_LIBRARY
+        )
+    else()
+        open3d_find_package_3rdparty_library(3rdparty_opengl
+            PACKAGE OpenGL
+            TARGETS OpenGL::GL
+        )
+        set(USE_SYSTEM_OPENGL ON)
+    endif()
+    list(APPEND Open3D_3RDPARTY_HEADER_TARGETS_FROM_SYSTEM Open3D::3rdparty_opengl)
 endif()
-list(APPEND Open3D_3RDPARTY_HEADER_TARGETS_FROM_SYSTEM Open3D::3rdparty_opengl)
 
 # CPU Rendering
 if(BUILD_GUI AND UNIX AND NOT APPLE)
@@ -1425,6 +1431,7 @@ if(BUILD_GUI AND UNIX AND NOT APPLE)
     message(STATUS "MESA_CPU_GL_LIBRARY: ${MESA_CPU_GL_LIBRARY}")
 endif()
 
+if (NOT IOS)
 # RPC interface
 # zeromq
 if(USE_SYSTEM_ZEROMQ)
@@ -1483,6 +1490,7 @@ if(NOT USE_SYSTEM_MSGPACK)
     list(APPEND Open3D_3RDPARTY_PRIVATE_TARGETS_FROM_CUSTOM Open3D::3rdparty_msgpack)
 else()
     list(APPEND Open3D_3RDPARTY_PRIVATE_TARGETS_FROM_SYSTEM Open3D::3rdparty_msgpack)
+endif()
 endif()
 
 # VTK
@@ -1642,8 +1650,10 @@ else() # if(OPEN3D_USE_ONEAPI_PACKAGES)
                     ${LAPACKE_LIBRARIES}
                 )
             else()
-                message(STATUS "System BLAS/LAPACK/LAPACKE not found, setting USE_SYSTEM_BLAS=OFF.")
-                set(USE_SYSTEM_BLAS OFF)
+                if (NOT IOS)
+                    message(STATUS "System BLAS/LAPACK/LAPACKE not found, setting USE_SYSTEM_BLAS=OFF.")
+                    set(USE_SYSTEM_BLAS OFF)
+                endif()
             endif()
         endif()
 
