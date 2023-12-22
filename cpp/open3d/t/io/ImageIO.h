@@ -55,17 +55,17 @@ bool WriteImage(const std::string &filename,
                 const geometry::Image &image,
                 int quality = kOpen3DImageIODefaultQuality);
 
-bool ReadImageFromPNG(const std::string &filename, geometry::Image &image);
+// bool ReadImageFromPNG(const std::string &filename, geometry::Image &image);
 
-bool WriteImageToPNG(const std::string &filename,
-                     const geometry::Image &image,
-                     int quality = kOpen3DImageIODefaultQuality);
+// bool WriteImageToPNG(const std::string &filename,
+//                      const geometry::Image &image,
+//                      int quality = kOpen3DImageIODefaultQuality);
 
-bool ReadImageFromJPG(const std::string &filename, geometry::Image &image);
+// bool ReadImageFromJPG(const std::string &filename, geometry::Image &image);
 
-bool WriteImageToJPG(const std::string &filename,
-                     const geometry::Image &image,
-                     int quality = kOpen3DImageIODefaultQuality);
+// bool WriteImageToJPG(const std::string &filename,
+//                      const geometry::Image &image,
+//                      int quality = kOpen3DImageIODefaultQuality);
 
 /// Simulate depth image noise from a given noise distortion model. The
 /// distortion model is based on *Teichman et. al. "Unsupervised intrinsic

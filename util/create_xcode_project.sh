@@ -12,10 +12,17 @@ cmake \
     -DUSE_SYSTEM_BLAS=ON \
     -DBUILD_VTK_FROM_SOURCE=ON \
     -DBUILD_FILAMENT_FROM_SOURCE=OFF \
+    -DUSE_SYSTEM_GLFW=OFF \
+    -DUSE_SYSTEM_JPEG=OFF \
+    -DUSE_SYSTEM_PNG=OFF \
+    -DUSE_BLAS=ON \
+    -DUSE_SYSTEM_BLAS=ON \
     -GXcode \
     -DCMAKE_TOOLCHAIN_FILE=./util/platforms/iOS.cmake \
     ..
 
+
+# -DCMAKE_INSTALL_PREFIX=../tqios/install \
 # Open3D build options
 # option(WITH_OPENMP                "Use OpenMP multi-threading"               ON )
 # option(GLIBCXX_USE_CXX11_ABI      "Set -D_GLIBCXX_USE_CXX11_ABI=1"           ON ) // disaibled for python

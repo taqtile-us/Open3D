@@ -2,6 +2,11 @@
 <img src="https://raw.githubusercontent.com/isl-org/Open3D/master/docs/_static/open3d_logo_horizontal.png" width="320" />
 </p>
 
+`brew install gcc`
+`pip3 install virtualenv`
+`add to PATH`
+
+
 # Open3D: A Modern Library for 3D Data Processing
 
 <h4>

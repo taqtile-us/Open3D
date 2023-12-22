@@ -57,26 +57,26 @@ bool WriteImage(const std::string &filename,
                 const geometry::Image &image,
                 int quality = kOpen3DImageIODefaultQuality);
 
-bool ReadImageFromPNG(const std::string &filename, geometry::Image &image);
+// bool ReadImageFromPNG(const std::string &filename, geometry::Image &image);
 
-bool WriteImageToPNG(const std::string &filename,
-                     const geometry::Image &image,
-                     int quality = kOpen3DImageIODefaultQuality);
+// bool WriteImageToPNG(const std::string &filename,
+//                      const geometry::Image &image,
+//                      int quality = kOpen3DImageIODefaultQuality);
 
-bool ReadImageFromJPG(const std::string &filename, geometry::Image &image);
+// bool ReadImageFromJPG(const std::string &filename, geometry::Image &image);
 
-bool WriteImageToJPG(const std::string &filename,
-                     const geometry::Image &image,
-                     int quality = kOpen3DImageIODefaultQuality);
+// bool WriteImageToJPG(const std::string &filename,
+//                      const geometry::Image &image,
+//                      int quality = kOpen3DImageIODefaultQuality);
 
 /// The general entrance for reading an Image from memory
-bool ReadPNGFromMemory(const unsigned char *image_data_ptr,
-                       size_t image_data_size,
-                       geometry::Image &image);
+// bool ReadPNGFromMemory(const unsigned char *image_data_ptr,
+//                        size_t image_data_size,
+//                        geometry::Image &image);
 
-bool ReadJPGFromMemory(const unsigned char *image_data_ptr,
-                       size_t image_data_size,
-                       geometry::Image &image);
+// bool ReadJPGFromMemory(const unsigned char *image_data_ptr,
+//                        size_t image_data_size,
+//                        geometry::Image &image);
 
 }  // namespace io
 }  // namespace open3d

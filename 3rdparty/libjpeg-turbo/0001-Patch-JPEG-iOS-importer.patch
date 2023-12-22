@@ -1,0 +1,115 @@
+From 4b702f35b490b1a8306e2b6cb642cf341725d7a4 Mon Sep 17 00:00:00 2001
+From: AKosmachyov <a.kosmachyov@gmail.com>
+Date: Tue, 29 Aug 2023 18:26:36 +0300
+Subject: [PATCH] Patch JPEG iOS importer
+
+---
+ CMakeLists.txt | 56 +++++++++++++++++++++++++-------------------------
+ 1 file changed, 28 insertions(+), 28 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index eefba16..cd195f4 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -662,17 +662,17 @@ if(WITH_TURBOJPEG)
+         LINK_FLAGS "${TJMAPFLAG}${TJMAPFILE}")
+     endif()
+ 
+-    add_executable(tjunittest tjunittest.c tjutil.c md5/md5.c md5/md5hl.c)
+-    target_link_libraries(tjunittest turbojpeg)
++    # add_executable(tjunittest tjunittest.c tjutil.c md5/md5.c md5/md5hl.c)
++    # target_link_libraries(tjunittest turbojpeg)
+ 
+-    add_executable(tjbench tjbench.c tjutil.c)
+-    target_link_libraries(tjbench turbojpeg)
+-    if(UNIX)
+-      target_link_libraries(tjbench m)
+-    endif()
++    # add_executable(tjbench tjbench.c tjutil.c)
++    # target_link_libraries(tjbench turbojpeg)
++    # if(UNIX)
++    #   target_link_libraries(tjbench m)
++    # endif()
+ 
+-    add_executable(tjexample tjexample.c)
+-    target_link_libraries(tjexample turbojpeg)
++    # add_executable(tjexample tjexample.c)
++    # target_link_libraries(tjexample turbojpeg)
+   endif()
+ 
+   if(ENABLE_STATIC)
+@@ -685,15 +685,15 @@ if(WITH_TURBOJPEG)
+       set_target_properties(turbojpeg-static PROPERTIES OUTPUT_NAME turbojpeg)
+     endif()
+ 
+-    add_executable(tjunittest-static tjunittest.c tjutil.c md5/md5.c
+-      md5/md5hl.c)
+-    target_link_libraries(tjunittest-static turbojpeg-static)
++    # add_executable(tjunittest-static tjunittest.c tjutil.c md5/md5.c
++    #   md5/md5hl.c)
++    # target_link_libraries(tjunittest-static turbojpeg-static)
+ 
+-    add_executable(tjbench-static tjbench.c tjutil.c)
+-    target_link_libraries(tjbench-static turbojpeg-static)
+-    if(UNIX)
+-      target_link_libraries(tjbench-static m)
+-    endif()
++    # add_executable(tjbench-static tjbench.c tjutil.c)
++    # target_link_libraries(tjbench-static turbojpeg-static)
++    # if(UNIX)
++    #   target_link_libraries(tjbench-static m)
++    # endif()
+   endif()
+ endif()
+ 
+@@ -896,10 +896,10 @@ endif()
+ 
+ set(TEST_LIBTYPES "")
+ if(ENABLE_SHARED)
+-  set(TEST_LIBTYPES ${TEST_LIBTYPES} shared)
++#   set(TEST_LIBTYPES ${TEST_LIBTYPES} shared)
+ endif()
+ if(ENABLE_STATIC)
+-  set(TEST_LIBTYPES ${TEST_LIBTYPES} static)
++#   set(TEST_LIBTYPES ${TEST_LIBTYPES} static)
+ endif()
+ 
+ set(TESTIMAGES ${CMAKE_CURRENT_SOURCE_DIR}/testimages)
+@@ -1482,8 +1482,8 @@ if(WITH_TURBOJPEG)
+       else()
+         set(DIR ${CMAKE_CURRENT_BINARY_DIR})
+       endif()
+-      install(PROGRAMS ${DIR}/tjbench-static${EXE}
+-        DESTINATION ${CMAKE_INSTALL_BINDIR} RENAME tjbench${EXE})
++    #   install(PROGRAMS ${DIR}/tjbench-static${EXE}
++        # DESTINATION ${CMAKE_INSTALL_BINDIR} RENAME tjbench${EXE})
+     endif()
+   endif()
+   install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/turbojpeg.h
+@@ -1500,16 +1500,16 @@ if(ENABLE_STATIC)
+     else()
+       set(DIR ${CMAKE_CURRENT_BINARY_DIR})
+     endif()
+-    install(PROGRAMS ${DIR}/cjpeg-static${EXE}
+-      DESTINATION ${CMAKE_INSTALL_BINDIR} RENAME cjpeg${EXE})
+-    install(PROGRAMS ${DIR}/djpeg-static${EXE}
+-      DESTINATION ${CMAKE_INSTALL_BINDIR} RENAME djpeg${EXE})
+-    install(PROGRAMS ${DIR}/jpegtran-static${EXE}
+-      DESTINATION ${CMAKE_INSTALL_BINDIR} RENAME jpegtran${EXE})
++    # install(PROGRAMS ${DIR}/cjpeg-static${EXE}
++    #   DESTINATION ${CMAKE_INSTALL_BINDIR} RENAME cjpeg${EXE})
++    # install(PROGRAMS ${DIR}/djpeg-static${EXE}
++    #   DESTINATION ${CMAKE_INSTALL_BINDIR} RENAME djpeg${EXE})
++    # install(PROGRAMS ${DIR}/jpegtran-static${EXE}
++    #   DESTINATION ${CMAKE_INSTALL_BINDIR} RENAME jpegtran${EXE})
+   endif()
+ endif()
+ 
+-install(TARGETS rdjpgcom wrjpgcom RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
++# install(TARGETS rdjpgcom wrjpgcom RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+ 
+ install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/README.ijg
+   ${CMAKE_CURRENT_SOURCE_DIR}/README.md ${CMAKE_CURRENT_SOURCE_DIR}/example.txt
+-- 
+2.39.2 (Apple Git-143)
+

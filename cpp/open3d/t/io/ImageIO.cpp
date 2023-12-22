@@ -23,23 +23,23 @@ namespace open3d {
 namespace t {
 namespace io {
 
-static const std::unordered_map<
-        std::string,
-        std::function<bool(const std::string &, geometry::Image &)>>
-        file_extension_to_image_read_function{
-                {"png", ReadImageFromPNG},
-                {"jpg", ReadImageFromJPG},
-                {"jpeg", ReadImageFromJPG},
-        };
+// static const std::unordered_map<
+//         std::string,
+//         std::function<bool(const std::string &, geometry::Image &)>>
+//         file_extension_to_image_read_function{
+//                 {"png", ReadImageFromPNG},
+//                 {"jpg", ReadImageFromJPG},
+//                 {"jpeg", ReadImageFromJPG},
+//         };
 
-static const std::unordered_map<
-        std::string,
-        std::function<bool(const std::string &, const geometry::Image &, int)>>
-        file_extension_to_image_write_function{
-                {"png", WriteImageToPNG},
-                {"jpg", WriteImageToJPG},
-                {"jpeg", WriteImageToJPG},
-        };
+// static const std::unordered_map<
+//         std::string,
+//         std::function<bool(const std::string &, const geometry::Image &, int)>>
+//         file_extension_to_image_write_function{
+//                 {"png", WriteImageToPNG},
+//                 {"jpg", WriteImageToJPG},
+//                 {"jpeg", WriteImageToJPG},
+//         };
 
 std::shared_ptr<geometry::Image> CreateImageFromFile(
         const std::string &filename) {
@@ -56,14 +56,14 @@ bool ReadImage(const std::string &filename, geometry::Image &image) {
                 "Read geometry::Image failed: missing file extension.");
         return false;
     }
-    auto map_itr = file_extension_to_image_read_function.find(filename_ext);
-    if (map_itr == file_extension_to_image_read_function.end()) {
+//    auto map_itr = file_extension_to_image_read_function.find(filename_ext);
+//    if (map_itr == file_extension_to_image_read_function.end()) {
         utility::LogWarning(
                 "Read geometry::Image failed: file extension {} unknown",
                 filename_ext);
         return false;
-    }
-    return map_itr->second(filename, image);
+//    }
+//    return map_itr->second(filename, image);
 }
 
 bool WriteImage(const std::string &filename,
@@ -76,13 +76,13 @@ bool WriteImage(const std::string &filename,
                 "Write geometry::Image failed: unknown file extension.");
         return false;
     }
-    auto map_itr = file_extension_to_image_write_function.find(filename_ext);
-    if (map_itr == file_extension_to_image_write_function.end()) {
+//    auto map_itr = file_extension_to_image_write_function.find(filename_ext);
+//    if (map_itr == file_extension_to_image_write_function.end()) {
         utility::LogWarning(
                 "Write geometry::Image failed: unknown file extension.");
         return false;
-    }
-    return map_itr->second(filename, image.To(core::Device("CPU:0")), quality);
+//    }
+//    return map_itr->second(filename, image.To(core::Device("CPU:0")), quality);
 }
 
 DepthNoiseSimulator::DepthNoiseSimulator(const std::string &noise_model_path) {

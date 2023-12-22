@@ -25,6 +25,7 @@ else()
     set(lib_name zmq)
 endif()
 
+find_package(Git QUIET REQUIRED)
 
 ExternalProject_Add(
     ext_zeromq
@@ -34,6 +35,9 @@ ExternalProject_Add(
     DOWNLOAD_DIR "${OPEN3D_THIRD_PARTY_DOWNLOAD_DIR}/zeromq"
     # do not update
     UPDATE_COMMAND ""
+    # PATCH_COMMAND ${GIT_EXECUTABLE} init
+    # COMMAND ${GIT_EXECUTABLE} apply --ignore-space-change --ignore-whitespace
+        # ${CMAKE_CURRENT_LIST_DIR}/0001-Patch-ZeroMQ.patch
     CMAKE_ARGS
         # Does not seem to work. We have to directly set the flags on Windows.
         #-DCMAKE_POLICY_DEFAULT_CMP0091:STRING=NEW
